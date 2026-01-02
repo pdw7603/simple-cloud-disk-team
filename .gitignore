@@ -1,0 +1,15 @@
+# 系统临时文件
+*.swp
+.DS_Store
+*.log
+# Python编译文件
+__pycache__/
+*.pyc
+*.pyo
+# 项目日志/临时文件
+run.log
+nohup.out
+# 本地数据存储目录（不上传远程）
+/usr/local/cloud-disk/
+# 测试临时文件
+test_upload.txt
