@@ -1,0 +1,70 @@
+cat > frontend/register.html << 'EOF'
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册 - 简易云盘系统</title>
+    <style>* {margin:0;padding:0;box-sizing:border-box;}body {width:100%;height:100vh;display:flex;justify-content:center;align-items:center;background:#f5f7fa;font-family:"Microsoft YaHei",Arial,sans-serif;font-size:16px;}.register-container {width:380px;padding:30px;background:#fff;border:1px solid #e6e6e6;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}.register-title {text-align:center;color:#1677ff;font-size:22px;margin-bottom:25px;font-weight:600;}.form-item {margin-bottom:20px;}.form-item input {width:100%;height:42px;padding:0 10px;border:1px solid #d9d9d9;border-radius:4px;font-size:16px;outline:none;transition:border-color 0.3s;}.form-item input:focus {border-color:#1677ff;}.error-tip {height:20px;line-height:20px;text-align:center;color:#ff4d4f;margin-bottom:15px;font-size:14px;}.submit-btn {width:100%;height:42px;background:#1677ff;color:#fff;border:none;border-radius:4px;font-size:16px;cursor:pointer;transition:background 0.3s;}.submit-btn:hover {background:#0958d9;}.link-area {text-align:center;margin-top:20px;font-size:14px;}.link-area a {color:#1677ff;text-decoration:none;}.link-area a:hover {text-decoration:underline;}</style>
+</head>
+<body>
+    <div class="register-container">
+        <h2 class="register-title">用户注册</h2>
+        <div class="error-tip" id="errorMsg"></div>
+        <form method="post" action="/register" onsubmit="return validateRegisterForm()">
+            <div class="form-item"><input type="text" name="username" placeholder="请输入用户名（3-20字符）" required autocomplete="off"></div>
+            <div class="form-item"><input type="password" name="password" placeholder="请输入密码（不少于6位）" required autocomplete="off"></div>
+            <div class="form-item"><input type="password" name="repassword" placeholder="请再次输入密码" required autocomplete="off"></div>
+            <button type="submit" class="submit-btn">立即注册</button>
+            <div class="link-area">已有账号？点击登录</div>
+        </form>
+    </div>
+    <script>
+        function validateRegisterForm() {
+            const username = document.querySelector('input[name="username"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value.trim();
+            const repassword = document.querySelector('input[name="repassword"]').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = "";
+            if(!username||!password||!repassword){errorMsg.textContent="用户名和密码不能为空！";return false;}
+            if(username.length<3||username.length>20){errorMsg.textContent="用户名长度需3-20字符！";return false;}
+            if(password.length<6){errorMsg.textContent="密码长度不少于6位！";return false;}
+            if(password!==repassword){errorMsg.textContent="两次密码不一致！";return false;}
+            return true;
+        }
+    </script>
+</body>
+</html>
+EOF
+
+cat > frontend/login.html << 'EOF'
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>系统登录 - 简易云盘系统</title>
+    <style>* {margin:0;padding:0;box-sizing:border-box;}body {width:100%;height:100vh;display:flex;justify-content:center;align-items:center;background:#f5f7fa;font-family:"Microsoft YaHei",Arial,sans-serif;font-size:16px;}.login-container {width:380px;padding:30px;background:#fff;border:1px solid #e6e6e6;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}.login-title {text-align:center;color:#1677ff;font-size:22px;margin-bottom:25px;font-weight:600;}.form-item {margin-bottom:20px;}.form-item input {width:100%;height:42px;padding:0 10px;border:1px solid #d9d9d9;border-radius:4px;font-size:16px;outline:none;transition:border-color 0.3s;}.form-item input:focus {border-color:#1677ff;}.error-tip {height:20px;line-height:20px;text-align:center;color:#ff4d4f;margin-bottom:15px;font-size:14px;}.submit-btn {width:100%;height:42px;background:#1677ff;color:#fff;border:none;border-radius:4px;font-size:16px;cursor:pointer;transition:background 0.3s;}.submit-btn:hover {background:#0958d9;}.link-area {text-align:center;margin-top:20px;font-size:14px;}.link-area a {color:#1677ff;text-decoration:none;}.link-area a:hover {text-decoration:underline;}</style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="login-title">系统登录</h2>
+        <div class="error-tip" id="errorMsg"></div>
+        <form method="post" action="/login" onsubmit="return validateLoginForm()">
+            <div class="form-item"><input type="text" name="username" placeholder="请输入用户名" required autocomplete="off"></div>
+            <div class="form-item"><input type="password" name="password" placeholder="请输入密码" required autocomplete="off"></div>
+            <button type="submit" class="submit-btn">登录系统</button>
+            <div class="link-area">还没有账号？立即注册</div>
+        </form>
+    </div>
+    <script>
+        function validateLoginForm() {
+            const username = document.querySelector('input[name="username"]').value.trim();
+            const password = document.querySelector('input[name="password"]').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = "";
+            if(!username||!password){errorMsg.textContent="用户名和密码不能为空！";return false;}
+            return true;
+        }
+    </script>
+</body>
+</html>
+EOF
