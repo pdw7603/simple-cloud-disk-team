@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+PROJECT_DIR="/home/root/simple-cloud-disk-team"
+SERVER_PORT="8081"
+PYTHON_CMD="python3"
+PIP_CMD="pip3"
+echo -e "\033[32m==============================================\033[0m"
+echo -e "\033[32m          简易云盘项目自动化部署开始           \033[0m"
+echo -e "\033[32m==============================================\033[0m"
+echo -e "\n\033[33m【步骤1】停止服务\033[0m"
+netstat -tulpn | grep -q ":${SERVER_PORT}" && (fuser -k ${SERVER_PORT}/tcp >/dev/null 2>&1 && echo -e "\033[32m服务已停止\033[0m") || echo -e "\033[33m无运行服务\033[0m"
+echo -e "\n\033[33m【步骤2】拉取代码\033[0m"
+cd ${PROJECT_DIR} && git checkout master && git pull origin main && echo -e "\033[32m代码拉取完成\033[0m"
+echo -e "\n\033[33m【步骤3】安装依赖\033[0m"
+${PIP_CMD} install flask -i https://pypi.tuna.tsinghua.edu.cn/simple >/dev/null 2>&1 && echo -e "\033[32m依赖安装完成\033[0m"
+echo -e "\n\033[33m【步骤4】启动服务\033[0m"
+nohup ${PYTHON_CMD} ${PROJECT_DIR}/backend/main.py > ${PROJECT_DIR}/run.log 2>&1 &
+sleep3 && netstat -tulpn | grep -q ":${SERVER_PORT}" && echo -e "\033[32m部署成功！访问：http://${SERVER_IP}:${SERVER_PORT}\033[0m" || echo -e "\033[31m部署失败\033[0m"
+echo -e "\n\033[32m==============================================\033[0m"
+echo -e "\033[32m          简易云盘项目自动化部署结束           \033[0m"
+echo -e "\033[32m==============================================\033[0m"
